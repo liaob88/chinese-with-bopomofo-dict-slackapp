@@ -1,0 +1,1 @@
+# japanese-chinese-with-bopomofo-dict-slackapp
