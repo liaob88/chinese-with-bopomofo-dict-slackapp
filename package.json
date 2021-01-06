@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/liaob88/japanese-chinese-with-bopomofo-dict-slackapp/issues"
   },
-  "homepage": "https://github.com/liaob88/japanese-chinese-with-bopomofo-dict-slackapp#readme"
+  "homepage": "https://github.com/liaob88/japanese-chinese-with-bopomofo-dict-slackapp#readme",
+  "dependencies": {
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
+  }
 }
