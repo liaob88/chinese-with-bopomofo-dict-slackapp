@@ -15,9 +15,11 @@ slackEvents.on('app_mention', async event => {
     })
     .then(res => {
       console.log('投稿完了!', res);
+      return;
     })
     .catch(error => {
       console.log(error);
+      return;
     });
 });
 
