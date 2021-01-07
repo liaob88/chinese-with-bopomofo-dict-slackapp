@@ -1,22 +1,23 @@
 const { createEventAdapter } = require('@slack/events-api');
-const getTranslation = require('./services/dictionaryApiService');
+const getTranslation = require('./services/translationApiService');
 const postSlackMessage = require('./services/slackApiService');
 
 const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
 const slackEvents = createEventAdapter(slackSigningSecret);
 const port = process.env.PORT || 3001;
 
-slackEvents.on('message', event => {
+slackEvents.on('app_mention', async event => {
+  console.log('メッセージ受信');
   getTranslation(event.text)
     .then(res => {
-      const postInfoObject = {
-        channel: event.channel,
-        searchResult: JSON.parse(res)
-      };
-      postSlackMessage(postInfoObject);
+      console.log('翻訳完了！');
+      postSlackMessage(event.channel, res);
+    })
+    .then(res => {
+      console.log('投稿完了!', res);
     })
     .catch(error => {
-      return;
+      console.log(error);
     });
 });
 
