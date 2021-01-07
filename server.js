@@ -4,7 +4,7 @@ const postSlackMessage = require('./services/slackApiService');
 
 const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
 const slackEvents = createEventAdapter(slackSigningSecret);
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 slackEvents.on('message', event => {
   getTranslation(event.text)
