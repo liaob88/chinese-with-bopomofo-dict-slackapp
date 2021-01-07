@@ -14,7 +14,7 @@ slackEvents.on('app_mention', async event => {
       postSlackMessage(event.channel, res);
     })
     .then(res => {
-      event.console.log('投稿完了!', res);
+      console.log('投稿完了!');
       return { statusCode: 200 };
     })
     .catch(error => {
