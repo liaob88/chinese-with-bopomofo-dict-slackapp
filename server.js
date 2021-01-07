@@ -1,6 +1,9 @@
 const { createEventAdapter } = require('@slack/events-api');
 const getTranslation = require('./services/translationApiService');
-const postSlackMessage = require('./services/slackApiService');
+const {
+  postSuccessMessage,
+  postErrorMessage
+} = require('./services/slackApiService');
 
 const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
 const slackEvents = createEventAdapter(slackSigningSecret);
@@ -11,7 +14,7 @@ slackEvents.on('app_mention', async event => {
   getTranslation(event.text)
     .then(res => {
       console.log('翻訳完了！');
-      postSlackMessage(event.channel, res);
+      postSuccessMessage(event.channel, res);
     })
     .then(res => {
       console.log('投稿完了!');
@@ -19,7 +22,8 @@ slackEvents.on('app_mention', async event => {
     })
     .catch(error => {
       console.log(error);
-      return;
+      postErrorMessage(event.channel);
+      return { statusCode: 200 };
     });
 });
 
