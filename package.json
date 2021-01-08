@@ -19,6 +19,7 @@
   "homepage": "https://github.com/liaob88/japanese-chinese-with-bopomofo-dict-slackapp#readme",
   "dependencies": {
     "@slack/events-api": "^2.3.4",
+    "@slack/interactive-messages": "^1.7.1",
     "@slack/web-api": "^5.15.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6"
