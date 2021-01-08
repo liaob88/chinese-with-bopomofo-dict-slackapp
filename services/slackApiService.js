@@ -1,19 +1,45 @@
 const { WebClient } = require('@slack/web-api');
 const web = new WebClient(process.env.SLACK_TOKEN);
 
+const attachments = [
+  {
+    text: '用語集に追加しますか？',
+    fallback: '用語集に追加できません。',
+    callback_id: 'wordbook_button',
+    color: '#3AA3E3',
+    attachment_type: 'default',
+    actions: [
+      {
+        name: 'options',
+        text: '追加',
+        style: 'danger',
+        type: 'button',
+        value: 'true'
+      },
+      {
+        name: 'options',
+        text: '追加しない',
+        type: 'button',
+        value: 'false'
+      }
+    ]
+  }
+];
+
 function postSuccessMessage(channel, searchResult) {
   const japanese = searchResult[0];
   const chinese = JSON.parse(searchResult[1]);
   const text = messageText(japanese, chinese);
-  return postSlackMessage(channel, text);
+  return web.chat.postMessage({
+    channel,
+    text,
+    attachments,
+    request_url: ''
+  });
 }
 
 function postErrorMessage(channel) {
   const text = 'ごめんなさい、エラーが発生しました。他の単語でお試しください。';
-  return postSlackMessage(channel, text);
-}
-
-function postSlackMessage(channel, text) {
   return web.chat.postMessage({
     channel,
     text
