@@ -13,8 +13,8 @@ class GoogleSpreadsheetService {
 
   async authorizeDoc(doc) {
     await doc.useServiceAccountAuth({
-      client_email: process.env.GOOGLE_SPREADSHEET_CRED_CLIENT_EMAIL,
-      private_key: process.env.GOOGLE_SPREADSHEET_CRED_PRIVATE_KEY
+      client_email: process.env.GOOGLE_APPLICATION_CREDENTIALS.client_email,
+      private_key: process.env.GOOGLE_SPREADSHEET_CRED_PRIVATE_KEY.private_key
     });
   }
 
