@@ -49,19 +49,24 @@ slackInteractive.action('wordbook_button', (e, respond) => {
       ]
     };
   }
-  writeOnSpreadsheet(wordData, e.channel).then(() => {
-    respond({
-      statusCode: 200,
-      text: wordData,
-      replace_original: true,
-      attachments: [
-        {
-          text: '用語集に追加しました！。ご利用いただきありがとうございました！'
-        }
-      ]
+  writeOnSpreadsheet(wordData, e.channel)
+    .then(() => {
+      respond({
+        statusCode: 200,
+        text: wordData,
+        replace_original: true,
+        attachments: [
+          {
+            text:
+              '用語集に追加しました！。ご利用いただきありがとうございました！'
+          }
+        ]
+      });
+      console.log('SpreadSheet への書き込み終了！');
+    })
+    .catch(error, () => {
+      console.log(error);
     });
-    console.log('SpreadSheet への書き込み終了！');
-  });
   return {
     text: wordData,
     statusCode: 200,
