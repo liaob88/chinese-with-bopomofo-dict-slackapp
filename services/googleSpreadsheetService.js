@@ -1,4 +1,5 @@
 const { GoogleSpreadsheet } = require('google-spreadsheet');
+const cred = require('../google-credentials.json');
 
 class GoogleSpreadsheetService {
   constructor() {
@@ -12,10 +13,7 @@ class GoogleSpreadsheetService {
   }
 
   async authorizeDoc(doc) {
-    await doc.useServiceAccountAuth({
-      client_email: process.env.GOOGLE_APPLICATION_CREDENTIALS.client_email,
-      private_key: process.env.GOOGLE_SPREADSHEET_CRED_PRIVATE_KEY.private_key
-    });
+    await doc.useServiceAccountAuth(cred);
   }
 
   async getSheet(doc, sheetIndex) {
