@@ -1,11 +1,21 @@
 const { GoogleSpreadsheet } = require('google-spreadsheet');
-const cred = require('../google-cred.json');
+const cred = {
+  type: process.env.GOOGLE_SPREADSHEET_CRED_TYPE,
+  project_id: process.env.GOOGLE_SPREADSHEET_CRED_PROJECT_ID,
+  private_key_id: process.env.GOOGLE_SPREADSHEET_CRED_PRIVATE_KEY_ID,
+  private_key: process.env.GOOGLE_SPREADSHEET_CRED_PRIVATE_KEY,
+  client_email: process.env.GOOGLE_SPREADSHEET_CRED_CLIENT_EMAIL,
+  client_id: process.env.GOOGLE_SPREADSHEET_CRED_CLIENT_ID,
+  auth_uri: process.env.GOOGLE_SPREADSHEET_CRED_AUTH_URI,
+  token_uri: process.env.GOOGLE_SPREADSHEET_CRED_TOKEN_URI,
+  auth_provider_x509_cert_url:
+    process.env.GOOGLE_SPREADSHEET_CRED_AUTH_PROVIDER_x509_CERT_URL,
+  client_x509_cert_url: process.env.GOOGLE_SPREADSHEET_CRED_CLIENT_x509_CERT_URL
+};
 
 class GoogleSpreadsheetService {
   constructor() {
-    this.doc = new GoogleSpreadsheet(
-      '1wChjNXTcf82f90nin5ys6ESGhfZznLfc8_iFUXEuoW0'
-    );
+    this.doc = new GoogleSpreadsheet(process.env.GOOGLE_SPREADSHEET_ID);
     this.sheet = null;
   }
 
