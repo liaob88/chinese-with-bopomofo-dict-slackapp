@@ -60,7 +60,7 @@ slackInteractive.action('wordbook_button', (e, respond) => {
         }
       ]
     });
-    console.log('SpreadSheet への書き込み終了！')
+    console.log('SpreadSheet への書き込み終了！');
   });
   return {
     text: wordData,
@@ -79,6 +79,7 @@ async function writeOnSpreadsheet(wordData, channel) {
   try {
     await doc.initSheet();
     await doc.addToSpreadSheet(wordData);
+    return;
   } catch (error) {
     postErrorMessage(channel);
   }
