@@ -39,7 +39,7 @@ function postSuccessMessage(channel, searchResult) {
 }
 
 function postErrorMessage(channel) {
-  const text = 'ごめんなさい、エラーが発生しました。他の単語でお試しください。';
+  const text = 'ごめんなさい、エラーが発生しました。。';
   return web.chat.postMessage({
     channel,
     text
@@ -47,8 +47,7 @@ function postErrorMessage(channel) {
 }
 
 function messageText(japanese, chinese) {
-  return `
-  "${chinese.title}"の検索結果だよ！
+  return `${chinese.title}の検索結果だよ！
   【注音字母】${chinese.concise_dict.heteronyms[0].bopomofo}
   【ピンイン】${chinese.concise_dict.heteronyms[0].pinyin}
   【日本語訳】${japanese}

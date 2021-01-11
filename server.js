@@ -5,6 +5,7 @@ const {
   postSuccessMessage,
   postErrorMessage
 } = require('./services/slackApiService');
+const GoogleSpreadsheetService = require('./services/googleSpreadsheetService');
 
 const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
 const slackEvents = createEventAdapter(slackSigningSecret);
@@ -34,11 +35,12 @@ slackEvents.on('app_mention', async event => {
     });
 });
 
-slackInteractive.action('wordbook_button', e => {
-  const isAdded = e.actions[0].value === 'true';
-  if (!isAdded) {
+slackInteractive.action('wordbook_button', (e, respond) => {
+  const wordData = e.original_message.text;
+  const answer = e.actions[0].value === 'true';
+  if (!answer) {
     return {
-      text: e.original_message.text,
+      text: wordData,
       replace_original: true,
       attachments: [
         {
@@ -47,7 +49,40 @@ slackInteractive.action('wordbook_button', e => {
       ]
     };
   }
+  writeOnSpreadsheet(wordData, e.channel).then(() => {
+    respond({
+      statusCode: 200,
+      text: wordData,
+      replace_original: true,
+      attachments: [
+        {
+          text: '用語集に追加しました！。ご利用いただきありがとうございました！'
+        }
+      ]
+    });
+    console.log('SpreadSheet への書き込み終了！')
+  });
+  return {
+    text: wordData,
+    statusCode: 200,
+    replace_original: true,
+    attachments: [
+      {
+        text: '用語集に書き込み中です...'
+      }
+    ]
+  };
 });
+
+async function writeOnSpreadsheet(wordData, channel) {
+  const doc = new GoogleSpreadsheetService();
+  try {
+    await doc.initSheet();
+    await doc.addToSpreadSheet(wordData);
+  } catch (error) {
+    postErrorMessage(channel);
+  }
+}
 
 app.listen(port, () => {
   console.log(`Listening for events on ${port}`);
