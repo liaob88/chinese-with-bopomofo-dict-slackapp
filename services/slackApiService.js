@@ -33,8 +33,7 @@ function postSuccessMessage(channel, searchResult) {
   return web.chat.postMessage({
     channel,
     text,
-    attachments,
-    request_url: ''
+    attachments
   });
 }
 
