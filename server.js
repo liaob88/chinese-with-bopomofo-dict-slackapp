@@ -49,24 +49,8 @@ slackInteractive.action('wordbook_button', (e, respond) => {
       ]
     };
   }
-  writeOnSpreadsheet(wordData, e.channel)
-    .then(() => {
-      respond({
-        statusCode: 200,
-        text: wordData,
-        replace_original: true,
-        attachments: [
-          {
-            text:
-              '用語集に追加しました！。ご利用いただきありがとうございました！'
-          }
-        ]
-      });
-      console.log('SpreadSheet への書き込み終了！');
-    })
-    .catch(error, () => {
-      console.log(error);
-    });
+  console.log('書き込み開始');
+  writeOnSpreadsheet(wordData, e.channel.id, respond);
   return {
     text: wordData,
     statusCode: 200,
@@ -79,13 +63,24 @@ slackInteractive.action('wordbook_button', (e, respond) => {
   };
 });
 
-async function writeOnSpreadsheet(wordData, channel) {
+async function writeOnSpreadsheet(wordData, channel, respond) {
   const doc = new GoogleSpreadsheetService();
   try {
     await doc.initSheet();
     await doc.addToSpreadSheet(wordData);
-    return;
+    await respond({
+      statusCode: 200,
+      text: wordData,
+      replace_original: true,
+      attachments: [
+        {
+          text: '用語集に追加しました！。ご利用いただきありがとうございました！'
+        }
+      ]
+    });
+    console.log('書き込み完了');
   } catch (error) {
+    console.log(error);
     postErrorMessage(channel);
   }
 }
