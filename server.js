@@ -26,13 +26,17 @@ slackEvents.on('app_mention', async event => {
     })
     .then(res => {
       console.log('投稿完了!');
-      return { statusCode: 200 };
     })
     .catch(error => {
       console.log(error);
       postErrorMessage(event.channel);
       return { statusCode: 200 };
     });
+  // 再送対策
+  return {
+    statusCode: 200,
+    body: 'OK'
+  };
 });
 
 slackInteractive.action('wordbook_button', (e, respond) => {
